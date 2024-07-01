@@ -1,0 +1,17 @@
+header {
+  .logo {
+    font-weight: 600;
+    font-size: 26px;
+  }
+  .presentation {
+    margin: 50px 0;
+    background: url("../../assets/bff284ac0e4d2622a4d62302a4d73b1b.jpeg");
+    width: 100%;
+    height: 500px;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    border-radius: 15px ;
+  }
+}
