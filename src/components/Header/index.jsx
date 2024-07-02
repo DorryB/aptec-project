@@ -6,6 +6,12 @@ export default function Header(){
         <header>
             <div>
                 <span className={styles.logo}>Курсы SMM</span>
+                <ul className={styles.nav}>
+                    <li> О нас</li>
+                    <li>Контакты</li>
+                    <li> Личный кабинет </li>
+
+                </ul>
             </div>
             <div className={styles.presentation}></div>
         </header>
