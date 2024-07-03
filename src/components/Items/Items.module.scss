@@ -3,4 +3,23 @@ main {
   width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  h2,
+  p,
+  b {
+    margin: 10px 20px;
+    color: #fff;
+  }
+  p {
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    color: #6e6e6e;
+  }
+  b {
+    color: #6e6e6e;
+    font-size: 24px;
+    position: absolute;
+    bottom: 20px;
+  }
 }
