@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import './index.scss';
 import Items from './components/Items';
+import Categories from './components/Categories';
 
 function App() {
   const [items, setItems] = useState([
@@ -12,7 +13,7 @@ function App() {
       img: '1.jpeg',
       desc: 'Курс по основам SMM: научитесь настраивать таргетированную рекламу, работать с графическими редакторами и анализировать маркетинговые показатели.',
       category: 'Курс',
-      price: '100 000',
+      price: '100000',
     },
     {
       id: 2,
@@ -20,7 +21,7 @@ function App() {
       img: '2.webp',
       desc: 'Курс по созданию контента для SMM: освойте искусство написания текстов, обработки фотографий и создания видеоматериалов для продвижения в социальных сетях.',
       category: 'Курс',
-      price: '20 000 ',
+      price: '20000',
     },
     {
       id: 3,
@@ -28,7 +29,7 @@ function App() {
       img: '3.webp',
       desc: 'Курс по управлению командой SMM: изучите принципы организации работы специалистов, научитесь разрешать конфликты и мотивировать сотрудников для достижения лучших результатов.',
       category: 'Курс',
-      price: '50 000',
+      price: '50000',
     },
     {
       id: 4,
@@ -36,7 +37,7 @@ function App() {
       img: '4.png',
       desc: 'Консультация по SMM для личного бренда: помощь в создании стратегии продвижения, выборе подходящих платформ и анализе конкурентов.',
       category: 'Консультация',
-      price: '10 000 ',
+      price: '10000 ',
     },
     {
       id: 5,
@@ -44,7 +45,7 @@ function App() {
       img: '5.jpeg',
       desc: 'Консультация по SMM для стартапа: рекомендации по выбору социальных сетей, разработке контент-плана и привлечению первых подписчиков.',
       category: 'Консультация',
-      price: '3 000 ',
+      price: '3000 ',
     },
     {
       id: 6,
@@ -52,7 +53,7 @@ function App() {
       img: '6.jpeg',
       desc: 'Консультация по оптимизации SMM для действующего бизнеса: анализ текущих стратегий, предложение улучшений и разработка плана по увеличению продаж через социальные сети.',
       category: 'Консультация',
-      price: '5 000 ',
+      price: '5000 ',
     },
     {
       id: 7,
@@ -60,7 +61,7 @@ function App() {
       img: '7.webp',
       desc: 'подробное руководство для начинающих, которое поможет разобраться в основах маркетинга в социальных медиа, освоить инструменты продвижения и достичь успеха в бизнесе',
       category: 'Гайд',
-      price: '1 000 ',
+      price: '1000 ',
     },
     {
       id: 8,
@@ -68,7 +69,7 @@ function App() {
       img: '8.webp',
       desc: 'Эффективный SMM-гайд: секреты успешного продвижения в социальных сетях, пошаговые инструкции, примеры успешных кейсов и рекомендации по оптимизации рекламных кампаний для привлечения целевой аудитории и увеличения прибыли.',
       category: 'Гайд',
-      price: '1 000 ',
+      price: '1000 ',
     },
     {
       id: 9,
@@ -76,7 +77,7 @@ function App() {
       img: '9.jpeg',
       desc: 'Профессиональный SMM-гайд: исчерпывающее руководство по использованию социальных медиа для развития бизнеса, охватывающее все аспекты SMM-маркетинга: от выбора платформы до анализа результатов и корректировки стратегии.',
       category: 'Гайд',
-      price: '1 000 ',
+      price: '1000 ',
     },
     {
       id: 10,
@@ -84,7 +85,7 @@ function App() {
       img: '10.jpeg',
       desc: 'Индивидуальное наставничество по SMM для предпринимателей: опытный наставник поможет определить подходящую социальную сеть для продвижения вашего бизнеса, разработать стратегию продаж и привлечь целевую аудиторию.',
       category: 'Наставничество',
-      price: '30 000 ',
+      price: '30000 ',
     },
     {
       id: 11,
@@ -92,7 +93,7 @@ function App() {
       img: '11.jpeg',
       desc: 'Наставничество для экспертов в различных областях: наставник поделится знаниями о том, как монетизировать свои знания в социальных сетях, привлечь клиентов и увеличить свой доход.',
       category: 'Наставничество',
-      price: '100 000 ',
+      price: '100000 ',
     },
     {
       id: 12,
@@ -100,18 +101,38 @@ function App() {
       img: '12.jpeg',
       desc: 'Наставничество для SMM-специалистов: опытный наставник обучит новым инструментам продвижения, адаптации знаний к новым платформам и развитию навыков самостоятельного продвижения в социальных сетях.',
       category: 'Наставничество',
-      price: '150 000 ',
+      price: '150000 ',
     },
   ]);
   const [orders, setOrders] = useState([]);
 
+  const [currentItems, setCurrentItems] = useState([]);
+  useEffect(() => {
+    setCurrentItems(items);
+  }, [items]);
+
+  const chooseCategory = (category) => {
+    if (category === 'all') {
+      setCurrentItems(items);
+    } else {
+      setCurrentItems(items.filter((el)=>el.category===category));
+    }
+  };
+
   const addToOrder = (item) => {
-    setOrders([...orders, item]);
+    if (!orders.some((el) => el.id === item.id)) {
+      setOrders([...orders, item]);
+    }
+  };
+
+  const deleteOrder = (id) => {
+    setOrders(orders.filter((el) => el.id !== id));
   };
   return (
     <div className="wrapper">
-      <Header orders={orders} />
-      <Items allItems={items} onAdd={addToOrder} />
+      <Header orders={orders} onDelete={deleteOrder} />
+      <Categories chooseCategory={chooseCategory}/>
+      <Items allItems={currentItems} onAdd={addToOrder} />
       <Footer />
     </div>
   );
