@@ -3,9 +3,17 @@ import styles from './Header.module.scss';
 import { FaHandPeace } from 'react-icons/fa';
 import { SlBasket } from 'react-icons/sl';
 import Orders from '../Orders';
+import PriceListPDF from "../PriceListPDF";
+import { saveAs } from "file-saver";
+import { pdf } from "@react-pdf/renderer"; 
 
 export default function Header(props) {
   let [cartOpen, setCartOpen] = useState(false);
+  const handleDownloadPDF = async () =>{
+    const pdfBlob =await pdf(<PriceListPDF items={props.items}/>).toBlob();
+    saveAs(pdfBlob, "PriceList.pdf");
+
+}
   const showOrders = (props) => {
     let summa = 0;
     props.orders.forEach((el) => (summa += Number.parseFloat(el.price)));
@@ -34,7 +42,7 @@ export default function Header(props) {
         <ul className={styles.nav}>
           <li> О нас</li>
           <li>Контакты</li>
-          <li> Личный кабинет </li>
+          <li onClick={handleDownloadPDF}> Скачать прайс </li>
         </ul>
         <SlBasket
           onClick={() => setCartOpen((cartOpen = !cartOpen))}
